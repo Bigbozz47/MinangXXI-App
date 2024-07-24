@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as CarouselController;
 import 'package:flutter/material.dart';
 
 class TrendingSlider extends StatelessWidget {
@@ -10,9 +10,9 @@ class TrendingSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      child: CarouselSlider.builder(
+      child: CarouselController.CarouselSlider.builder(
         itemCount: 10,
-        options: CarouselOptions(
+        options: CarouselController.CarouselOptions(
           height: 300,
           autoPlay: true,
           viewportFraction: 0.55,

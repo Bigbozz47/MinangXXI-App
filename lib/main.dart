@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'MinangXXI',
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colours.scaffoldBgColor,
+        // ignore: deprecated_member_use
         useMaterial3: true,
       ),
       home: const HomeScreen(),
