@@ -1,3 +1,5 @@
+import 'package:final_project/api/api.dart';
+import 'package:final_project/models/movie.dart';
 import 'package:final_project/widgets/movies_slider.dart';
 import 'package:final_project/widgets/trending_slider.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late Future<List<Movie>> trendingMovies;
+
+  @override
+  void initState() {
+    super.initState();
+    trendingMovies = Api().getTrendingMovies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
