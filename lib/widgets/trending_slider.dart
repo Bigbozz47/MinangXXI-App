@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_options.dart'; // Pastikan mengimpor juga CarouselOptions
+import 'package:carousel_slider/carousel_controller.dart'; // Pastikan mengimpor CarouselController
 import 'package:final_project/constants.dart';
 import 'package:final_project/screens/details_screens.dart';
 import 'package:flutter/material.dart';
