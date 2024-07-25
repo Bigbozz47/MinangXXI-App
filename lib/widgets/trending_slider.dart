@@ -1,17 +1,23 @@
+// ignore: depend_on_referenced_packages, library_prefixes
 import 'package:carousel_slider/carousel_slider.dart' as CarouselController;
+import 'package:final_project/constants.dart';
+import 'package:final_project/screens/details_screens.dart';
 import 'package:flutter/material.dart';
 
 class TrendingSlider extends StatelessWidget {
   const TrendingSlider({
     super.key,
+    required this.snapshot,
   });
+
+  final AsyncSnapshot snapshot;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: CarouselController.CarouselSlider.builder(
-        itemCount: 10,
+        itemCount: snapshot.data!.length,
         options: CarouselController.CarouselOptions(
           height: 300,
           autoPlay: true,
@@ -22,12 +28,27 @@ class TrendingSlider extends StatelessWidget {
           autoPlayAnimationDuration: const Duration(seconds: 1),
         ),
         itemBuilder: (context, itemIndex, pageViewIndex) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Container(
-              height: 300,
-              width: 200,
-              color: Colors.amber,
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailsScreens(
+                    movie: snapshot.data[itemIndex],
+                  ),
+                ),
+              );
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: SizedBox(
+                height: 300,
+                width: 200,
+                child: Image.network(
+                    filterQuality: FilterQuality.high,
+                    fit: BoxFit.cover,
+                    '${Constants.imagePath}${snapshot.data[itemIndex].posterPath}'),
+              ),
             ),
           );
         },
