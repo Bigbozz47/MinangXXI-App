@@ -1,5 +1,4 @@
-// ignore: depend_on_referenced_packages, library_prefixes
-import 'package:carousel_slider/carousel_slider.dart' as CarouselController;
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:final_project/constants.dart';
 import 'package:final_project/screens/details_screens.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +15,9 @@ class TrendingSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      child: CarouselController.CarouselSlider.builder(
+      child: CarouselSlider.builder(
         itemCount: snapshot.data!.length,
-        options: CarouselController.CarouselOptions(
+        options: CarouselOptions(
           height: 300,
           autoPlay: true,
           viewportFraction: 0.55,
@@ -45,9 +44,10 @@ class TrendingSlider extends StatelessWidget {
                 height: 300,
                 width: 200,
                 child: Image.network(
-                    filterQuality: FilterQuality.high,
-                    fit: BoxFit.cover,
-                    '${Constants.imagePath}${snapshot.data[itemIndex].posterPath}'),
+                  filterQuality: FilterQuality.high,
+                  fit: BoxFit.cover,
+                  '${Constants.imagePath}${snapshot.data[itemIndex].posterPath}',
+                ),
               ),
             ),
           );
