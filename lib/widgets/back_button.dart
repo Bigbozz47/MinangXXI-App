@@ -1,4 +1,3 @@
-import 'package:final_project/widgets/colors.dart';
 import 'package:flutter/material.dart';
 
 class BackBtn extends StatelessWidget {
@@ -8,6 +7,10 @@ class BackBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final backgroundColor = theme.scaffoldBackgroundColor;
+    final iconColor = theme.iconTheme.color;
+
     return Container(
       height: 70,
       width: 70,
@@ -16,15 +19,16 @@ class BackBtn extends StatelessWidget {
         left: 16,
       ),
       decoration: BoxDecoration(
-        color: Colours.scaffoldBgColor,
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(8),
       ),
       child: IconButton(
         onPressed: () {
           Navigator.pop(context);
         },
-        icon: const Icon(
+        icon: Icon(
           Icons.arrow_back_ios_new_rounded,
+          color: iconColor,
         ),
       ),
     );

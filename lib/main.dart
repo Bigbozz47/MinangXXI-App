@@ -1,26 +1,33 @@
-import 'package:final_project/screens/home_screen.dart';
-import 'package:final_project/widgets/colors.dart';
 import 'package:flutter/material.dart';
+import 'screens/home_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.dark);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'MinangXXI',
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: Colours.scaffoldBgColor,
-        // ignore: deprecated_member_use
-        useMaterial3: true,
-      ),
-      home: const HomeScreen(),
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeNotifier,
+      builder: (context, ThemeMode themeMode, _) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'MinangXXI',
+          theme: ThemeData.light().copyWith(
+            scaffoldBackgroundColor: Colors.white,
+            useMaterial3: true,
+          ),
+          darkTheme: ThemeData.dark().copyWith(
+            scaffoldBackgroundColor: Colors.grey[900],
+            useMaterial3: true,
+          ),
+          themeMode: themeMode,
+          home: HomeScreen(themeNotifier: themeNotifier),
+        );
+      },
     );
   }
 }

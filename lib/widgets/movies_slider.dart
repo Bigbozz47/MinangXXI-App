@@ -1,4 +1,4 @@
-import 'package:final_project/constants.dart';
+import 'package:final_project/constants/constants.dart';
 import 'package:final_project/screens/details_screens.dart';
 import 'package:flutter/material.dart';
 

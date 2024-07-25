@@ -1,135 +1,54 @@
-import 'package:final_project/api/api.dart';
-import 'package:final_project/models/movie.dart';
-import 'package:final_project/widgets/movies_slider.dart';
-import 'package:final_project/widgets/trending_slider.dart';
+import 'package:final_project/screens/search_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'setting_screen.dart';
+import 'movie_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, this.index, required this.themeNotifier});
+
+  final int? index;
+  final ValueNotifier<ThemeMode> themeNotifier;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<List<Movie>> trendingMovies;
-  late Future<List<Movie>> topRatedMovies;
-  late Future<List<Movie>> upComingMovies;
+  int _selectedIndex = 0;
 
   @override
   void initState() {
+    if (widget.index != null) {
+      _selectedIndex = widget.index!;
+    }
     super.initState();
-    trendingMovies = Api().getTrendingMovies();
-    topRatedMovies = Api().getTopRatedMovies();
-    upComingMovies = Api().getUpcomingMovies();
   }
+
+  final _destination = [
+    const NavigationDestination(icon: Icon(Icons.home), label: "Home"),
+    const NavigationDestination(icon: Icon(Icons.search), label: "Search"),
+    const NavigationDestination(icon: Icon(Icons.settings), label: "Settings"),
+  ];
 
   @override
   Widget build(BuildContext context) {
+    final _screens = [
+      const MovieScreen(),
+      SearchScreen(),
+      SettingScreen(themeNotifier: widget.themeNotifier),
+    ];
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Image.asset(
-          'assets/minangxxi.png',
-          fit: BoxFit.cover,
-          height: 55,
-          filterQuality: FilterQuality.high,
-        ),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Trending Movies',
-                style: GoogleFonts.aBeeZee(fontSize: 25),
-              ),
-              const SizedBox(height: 32),
-              SizedBox(
-                child: FutureBuilder(
-                  future: trendingMovies,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text(snapshot.error.toString()),
-                      );
-                    } else if (snapshot.hasData) {
-                      return TrendingSlider(
-                        snapshot: snapshot,
-                      );
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                ),
-              ),
-              const SizedBox(height: 32),
-              Text(
-                'Top Rated Movies',
-                style: GoogleFonts.aBeeZee(
-                  fontSize: 25,
-                ),
-              ),
-              const SizedBox(height: 32),
-              SizedBox(
-                child: FutureBuilder(
-                  future: topRatedMovies,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text(snapshot.error.toString()),
-                      );
-                    } else if (snapshot.hasData) {
-                      return MoviesSlider(
-                        snapshot: snapshot,
-                      );
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                ),
-              ),
-              const SizedBox(height: 32),
-              Text(
-                'Upcoming Movies',
-                style: GoogleFonts.aBeeZee(
-                  fontSize: 25,
-                ),
-              ),
-              const SizedBox(height: 32),
-              SizedBox(
-                child: FutureBuilder(
-                  future: upComingMovies,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text(snapshot.error.toString()),
-                      );
-                    } else if (snapshot.hasData) {
-                      return MoviesSlider(
-                        snapshot: snapshot,
-                      );
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
+      body: _screens[_selectedIndex],
+      bottomNavigationBar: NavigationBar(
+        elevation: 12,
+        selectedIndex: _selectedIndex,
+        destinations: _destination,
+        onDestinationSelected: (value) {
+          setState(() {
+            _selectedIndex = value;
+          });
+        },
       ),
     );
   }
